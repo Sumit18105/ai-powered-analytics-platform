@@ -17,6 +17,14 @@ settings = get_settings()
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
 logger = logging.getLogger("ai-analytics")
 
+# Keep the hosted demo frontend reachable even if an older Render
+# CORS_ORIGINS environment variable is still set to localhost.
+DEPLOYED_FRONTEND_ORIGINS = {
+    "https://ai-powered-analytics-platform-1.onrender.com",
+    "https://ai-powered-analytics-web.onrender.com",
+}
+CORS_ORIGINS = list(dict.fromkeys(settings.cors_origin_list + sorted(DEPLOYED_FRONTEND_ORIGINS)))
+
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -38,7 +46,7 @@ app = FastAPI(
 
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=settings.cors_origin_list,
+    allow_origins=CORS_ORIGINS,
     allow_credentials=True,
     allow_methods=["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
     allow_headers=["Authorization", "Content-Type", "X-Request-ID"],
