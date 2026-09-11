@@ -23,6 +23,19 @@ class Settings(BaseSettings):
 
     model_config = SettingsConfigDict(env_file=".env", extra="ignore")
 
+    @field_validator("database_url", mode="before")
+    @classmethod
+    def normalize_database_url(cls, value: str) -> str:
+        # SQLAlchemy defaults plain PostgreSQL URLs to psycopg2.
+        # This project intentionally uses psycopg 3, so normalize the
+        # common plain URL form supplied by hosted PostgreSQL providers.
+        if isinstance(value, str):
+            if value.startswith("postgresql://"):
+                return "postgresql+psycopg://" + value[len("postgresql://"):]
+            if value.startswith("postgres://"):
+                return "postgresql+psycopg://" + value[len("postgres://"):]
+        return value
+
     @field_validator("jwt_secret")
     @classmethod
     def validate_jwt_secret(cls, value: str) -> str:
