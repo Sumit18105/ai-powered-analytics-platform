@@ -12,7 +12,8 @@ RUN npm run build
 FROM node:22-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
+ENV HOSTNAME=0.0.0.0
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
-EXPOSE 3000
-CMD ["sh", "-c", "node server.js -p ${PORT:-3000}"]
+EXPOSE 10000
+CMD ["node", "server.js"]
