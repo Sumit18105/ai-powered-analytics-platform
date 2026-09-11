@@ -16,7 +16,7 @@ class Settings(BaseSettings):
     jwt_secret: str = "dev-only-change-this-jwt-secret-please-use-32-bytes-min"
     jwt_expire_minutes: int = 60 * 8
     auth_required: bool = False
-    cors_origins: str = "http://localhost:3000"
+    cors_origins: str = "http://localhost:3000,https://ai-powered-analytics-web.onrender.com,https://ai-powered-analytics-platform-1.onrender.com"
     scheduler_enabled: bool = True
     refresh_interval_minutes: int = 1
     monitoring_interval_minutes: int = 15
