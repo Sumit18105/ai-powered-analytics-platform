@@ -1,4 +1,4 @@
-# AI Analytics Platform — Final v1.0 Release Candidate
+# AI Analytics Platform 
 
 v10 is the production-hardening release built on the confirmed working v9 Enterprise Automation baseline.
 
